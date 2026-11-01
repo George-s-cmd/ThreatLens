@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.api.events import router as events_router
 from app.db.database import engine
 from app.db.models import Base
+from app.api.alerts import router as alerts_router
 
 app = FastAPI(
     title="ThreatLens API",
@@ -18,6 +19,7 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 
 app.include_router(events_router)
+app.include_router(alerts_router)
 
 
 @app.get("/")
