@@ -3,13 +3,21 @@ from fastapi import FastAPI, HTTPException
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
+from app.api.events import router as events_router
 from app.db.database import engine
+from app.db.models import Base
 
 app = FastAPI(
     title="ThreatLens API",
     description="Cybersecurity Threat Detection Platform",
-    version="0.1.0"
+    version="0.2.0"
 )
+
+# Temporary MVP table creation.
+# We'll use Alembic migrations in a later stage.
+Base.metadata.create_all(bind=engine)
+
+app.include_router(events_router)
 
 
 @app.get("/")
@@ -17,7 +25,7 @@ def root():
     return {
         "project": "ThreatLens",
         "status": "running",
-        "version": "0.1.0"
+        "version": "0.2.0"
     }
 
 
